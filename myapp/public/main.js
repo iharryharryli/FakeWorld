@@ -1,7 +1,7 @@
 var updateInterval = 20;
 var cleanUpInterval = 1000;
 
-var catchUpInterval = 0.2;
+var catchUpInterval = 0.1;
 
 function Player(someID,someProfile){
 	var res = {};
