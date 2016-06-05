@@ -1,7 +1,7 @@
-var updateInterval = 20;
+var updateInterval = 15;
 var cleanUpInterval = 1000;
 
-var catchUpInterval = 0.2;
+var catchUpInterval = 0.15;
 
 function Player(someID,someProfile){
 	var res = {};
@@ -42,11 +42,11 @@ function Me(ID,speed,angle){
 							   angle:res.delegate.delegate.rotation.y,
 							   },
 							   ID:res.ID
-							},function(){});
+							},function(){window.setTimeout(res.update,updateInterval);});
 	};
 	core.add(res.delegate);
 	core.cameraFollow = res.delegate.delegate;
-	window.setInterval(res.update,updateInterval);
+	res.update();
 	return res;
 };
 
@@ -90,6 +90,7 @@ function PlayerManager(myID){
     		}
     		res.players = null;
     		res.players = result;
+    		window.setTimeout(res.cleanUp,cleanUpInterval);
     	});
     }
 
@@ -106,12 +107,14 @@ function PlayerManager(myID){
 					res.players[temp].update(r.list[i].profile);
 				}
 			}
+			window.setTimeout(res.update,updateInterval);
+
 		});
-		//window.setTimeout(res.update,updateInterval);
 	}
-	window.setInterval(res.update,updateInterval);
-	//res.update();
-	window.setInterval(res.cleanUp,cleanUpInterval);
+
+	res.update();
+	window.setTimeout(res.cleanUp,cleanUpInterval);
+	
 	return res;
 }
 
