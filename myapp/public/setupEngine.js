@@ -23,25 +23,34 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     camera.attachControl(canvas, false);
 
     // This creates a light, aiming 0,1,0 - to the sky.
+
+    
+
     var light0 = new BABYLON.DirectionalLight("Dir0", new BABYLON.Vector3(0, -1, 0), scene);
     
     light0.specular = new BABYLON.Color3(1, 1, 1);
-    // Dim the light a small amount
-    //light.intensity = .5;
 
+	
     
 
     
+
+    
+    var shadowGenerator = new BABYLON.ShadowGenerator(1024, light0);
+    shadowGenerator.useVarianceShadowMap = true;
 
     var ground = BABYLON.Mesh.CreateGround("ground1", 100, 100, 1, scene);
     var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+    
+
     materialPlane.diffuseTexture = new BABYLON.Texture("res/grass.jpg", scene);
     ground.material = materialPlane;
     materialPlane.diffuseTexture.uScale = 15.0;
     materialPlane.diffuseTexture.vScale = 15.0;
+    ground.receiveShadows = true;
+    shadowGenerator.bias = 0.01;
 
- //   scene.collisionsEnabled = true;
-  //  ground.checkCollisions = true;
+    ground.checkCollisions = true;
 
     
    
@@ -91,6 +100,9 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
         myBox.scaling.z = 3;
         myBox.material = new BABYLON.StandardMaterial("Mat", scene);
         myBox.material.diffuseTexture = new BABYLON.Texture("res/crate.png", scene);
+        
+        shadowGenerator.getShadowMap().renderList.push(myBox);
+        
         var particleSystem = new BABYLON.ParticleSystem("particles", 2000, scene);
         
             //Texture of each particle
