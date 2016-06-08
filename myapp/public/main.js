@@ -5,7 +5,7 @@ var catchUpInterval = 0.15;
 
 function Player(someID,someProfile){
 	var res = {};
-	res.delegate = CarEntity(0,0);
+	res.delegate = Car(0,0,scene);
 	res.delegate.goWithAngle = false;
 	res.delegate.delegate.position = new BABYLON.Vector3(someProfile.x,someProfile.y,someProfile.z);
 	res.delegate.delegate.rotation.y = someProfile.angle;
@@ -30,7 +30,7 @@ function Player(someID,someProfile){
 
 function Me(ID,speed,angle){
 	var res = {};
-	res.delegate = CarEntity(10,7);
+	res.delegate = Car(10,7,scene);
 	res.ID = ID;
 	res.delegate.velocity = new BABYLON.Vector3(speed*Math.sin(angle),0,speed*Math.cos(angle));
 	res.delegate.delegate.rotation.y = angle;
