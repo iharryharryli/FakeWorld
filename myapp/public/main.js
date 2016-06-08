@@ -20,7 +20,7 @@ function Player(someID,someProfile){
 		res.delegate.velocity = (current.subtract(res.delegate.delegate.position)).scale(1/catchUpInterval);
 	};
 	res.remove = function(){
-		core.delete(res.delegate.delegate);
+		core.delete(res.delegate);
 		res = null;
 	};
 	
