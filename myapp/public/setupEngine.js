@@ -72,7 +72,7 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
                     break;
                 }
             }
-            t.delegate.dispose();
+            t.shape.dispose();
         };
         res.camera = null;
         res.cameraFollow = null;

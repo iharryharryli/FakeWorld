@@ -49,19 +49,24 @@ function createCarParticle(emmiter,scene){
 
 }
 
+function CarShape(){
+	var myBox = BABYLON.Mesh.CreateBox("box",0.3,scene);
+    myBox.position.y = 0.15;
+    myBox.scaling.z = 3;
+    myBox.material = new BABYLON.StandardMaterial("Mat", scene);
+	myBox.material.diffuseTexture = new BABYLON.Texture("res/crate.png", scene);    
+	shadowGenerator.getShadowMap().renderList.push(myBox);
+	createCarParticle(myBox,scene);
+	return myBox;
+}
+
 function Car(nimble,drift,scene){
         var res = {};
         //UI for car
-        var myBox = BABYLON.Mesh.CreateBox("box",0.3,scene);
-        myBox.position.y = 0.15;
-        myBox.scaling.z = 3;
-        myBox.material = new BABYLON.StandardMaterial("Mat", scene);
-        myBox.material.diffuseTexture = new BABYLON.Texture("res/crate.png", scene);
-        
-        shadowGenerator.getShadowMap().renderList.push(myBox);
         
         
-        res.delegate = myBox;
+        
+        res.shape = CarShape();
         res.velocity = new BABYLON.Vector3(0,0,0);
 
         res.turningSpeed = 0;
@@ -70,7 +75,7 @@ function Car(nimble,drift,scene){
         res.turningReturn = drift;
 
         res.goWithAngle = true;
-        createCarParticle(myBox,scene);
+        
 
         res.draw = function(duration){
             res.turningSpeed += duration*res.turningAcc*res.turningState;
@@ -82,20 +87,20 @@ function Car(nimble,drift,scene){
                 res.turningSpeed += res.turningReturn*duration;
                 if(res.turningSpeed > 0)res.turningSpeed = 0;
             }
-            res.delegate.rotation.y += duration * res.turningSpeed;
+            res.shape.rotation.y += duration * res.turningSpeed;
 
             if(res.turningSpeed != 0 && res.goWithAngle)res.manualTurn();
 
             var temp = res.velocity.scale(duration);
             
-            res.delegate.position.addInPlace(temp); 
+            res.shape.position.addInPlace(temp); 
             
         };
 
         res.manualTurn = function (){
             var t = res.velocity.length();
-            res.velocity.x = t * Math.sin(res.delegate.rotation.y);
-            res.velocity.z = t * Math.cos(res.delegate.rotation.y);
+            res.velocity.x = t * Math.sin(res.shape.rotation.y);
+            res.velocity.z = t * Math.cos(res.shape.rotation.y);
         };
 
 
