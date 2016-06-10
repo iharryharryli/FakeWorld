@@ -67,6 +67,7 @@ function Car(nimble,drift,scene){
         
         
         res.shape = CarShape();
+        res.entity = CarEntity();
         res.velocity = new BABYLON.Vector3(0,0,0);
 
         res.turningSpeed = 0;
@@ -78,23 +79,10 @@ function Car(nimble,drift,scene){
         
 
         res.draw = function(duration){
-            res.turningSpeed += duration*res.turningAcc*res.turningState;
-            if(res.turningState == 0 && res.turningSpeed>0){
-                res.turningSpeed -= res.turningReturn*duration;
-                if(res.turningSpeed < 0)res.turningSpeed=0;
-            }
-            else if(res.turningState == 0 && res.turningSpeed<0){
-                res.turningSpeed += res.turningReturn*duration;
-                if(res.turningSpeed > 0)res.turningSpeed = 0;
-            }
-            res.shape.rotation.y += duration * res.turningSpeed;
 
-            if(res.turningSpeed != 0 && res.goWithAngle)res.manualTurn();
-
-            var temp = res.velocity.scale(duration);
             
-            res.shape.position.addInPlace(temp); 
-            
+            res.shape.position = positionFromPhy(res.entity.chassisBody.position); 
+            res.shape.rotationQuaternion = quaternionFromPhy(res.entity.chassisBody.quaternion); 
         };
 
         res.manualTurn = function (){

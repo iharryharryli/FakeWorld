@@ -9,4 +9,12 @@ function postJson(url,obj,callback){
 			callback(res);
 		}
 	}
+};
+
+function positionFromPhy(s){
+	return new BABYLON.Vector3(s.y, s.z, -s.x);
+}
+
+function quaternionFromPhy(s){
+	return new BABYLON.Quaternion(s.y,s.z,-s.x,-s.w);
 }

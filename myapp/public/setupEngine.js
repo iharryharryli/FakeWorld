@@ -50,6 +50,7 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     ground.receiveShadows = true;
     shadowGenerator.bias = 0.01;
 
+
     ground.checkCollisions = true;
 
     
@@ -78,6 +79,8 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
         res.cameraFollow = null;
 
         res.draw = function(){
+
+        	corePhysics.update(res.intervalPerSecond);
             for(var i=0; i<res.elements.length; i++){
                 res.elements[i].draw(res.intervalPerSecond);
             }
@@ -92,6 +95,6 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
         
     };
 
-
+    var corePhysics = PhyscisEngine();
     var core = Engine(FPS);
     core.camera = camera;
