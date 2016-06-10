@@ -122,7 +122,7 @@ function Car(nimble,drift,scene){
         };
 
         res.forward = function(){
-            var maxForce = 8;
+            var maxForce = 10;
             var vehicle = res.entity;
             vehicle.setWheelForce(maxForce, 2);
             vehicle.setWheelForce( -maxForce, 3);
