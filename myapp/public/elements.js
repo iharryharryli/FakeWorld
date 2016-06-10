@@ -57,6 +57,10 @@ function CarShape(){
 	myBox.material.diffuseTexture = new BABYLON.Texture("res/crate.png", scene);    
 	shadowGenerator.getShadowMap().renderList.push(myBox);
 	createCarParticle(myBox,scene);
+
+    
+
+    myBox.physicsImposter = new BABYLON.PhysicsImpostor(myBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 10, restitution: 0.9 }, scene);
 	return myBox;
 }
 
@@ -87,13 +91,13 @@ function Car(nimble,drift,scene){
                 res.turningSpeed += res.turningReturn*duration;
                 if(res.turningSpeed > 0)res.turningSpeed = 0;
             }
-            res.shape.rotation.y += duration * res.turningSpeed;
+            //res.shape.rotation.y += duration * res.turningSpeed;
 
             if(res.turningSpeed != 0 && res.goWithAngle)res.manualTurn();
 
             var temp = res.velocity.scale(duration);
             
-            res.shape.position.addInPlace(temp); 
+            //res.shape.position.addInPlace(temp); 
             
         };
 
