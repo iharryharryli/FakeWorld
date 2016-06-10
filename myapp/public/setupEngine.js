@@ -14,8 +14,6 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     // Change the scene background color to green.
     scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
-    scene.enablePhysics(new BABYLON.Vector3(0,-0.3, 0), new BABYLON.OimoJSPlugin());
-
     // This creates and positions a free camera
    var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(8, 8, 8), scene);
     // This targets the camera to scene origin
@@ -42,8 +40,6 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     shadowGenerator.useVarianceShadowMap = true;
 
     var ground = BABYLON.Mesh.CreateGround("ground1", 100, 100, 1, scene);
-    
-
     var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
     
 
@@ -53,9 +49,8 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     materialPlane.diffuseTexture.vScale = 15.0;
     ground.receiveShadows = true;
     shadowGenerator.bias = 0.01;
-    ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
 
-//    ground.checkCollisions = true;
+    ground.checkCollisions = true;
 
     
    
