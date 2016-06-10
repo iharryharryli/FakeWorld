@@ -21,6 +21,7 @@ function Player(someID,someProfile){
 	};
 	res.remove = function(){
 		core.delete(res.vehicle);
+		
 		res = null;
 	};
 	
@@ -55,7 +56,7 @@ function StoryBegin(myID){
 	var me = Me(myID,1.5,0);
 	setupWindow(me.vehicle);
 
-	var others = PlayerManager(myID);
+	//var others = PlayerManager(myID);
 }
 
 function PlayerManager(myID){
@@ -96,7 +97,6 @@ function PlayerManager(myID){
 
 	res.update = function(){
 		postJson("fetchOthers",{me:res.me},function(r){
-			//console.log(r.list.length);
 			for(var i=0; i<r.list.length; i++){
 				var temp = res.exist(r.list[i].ID);
 				if(temp<0){

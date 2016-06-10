@@ -22,7 +22,7 @@ function CarEntity(){
     var vehicle;
     		var wheelMaterial = new CANNON.Material("wheelMaterial");
             var wheelGroundContactMaterial = new CANNON.ContactMaterial(wheelMaterial, corePhysics.ground.material, {
-                friction: 0.3,
+                friction: 0.4,
                 restitution: 0,
                 contactEquationStiffness: 1000
             });
@@ -83,7 +83,7 @@ function CarEntity(){
 
             // Some damping to not spin wheels too fast
             for(var i=0; i<vehicle.wheelBodies.length; i++){
-                vehicle.wheelBodies[i].angularDamping = 0.4;
+                vehicle.wheelBodies[i].angularDamping = 0.6;
             }
             vehicle.addToWorld(corePhysics.world);
 

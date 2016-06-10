@@ -91,6 +91,33 @@ function Car(nimble,drift,scene){
             res.velocity.z = t * Math.cos(res.shape.rotation.y);
         };
 
+        res.turn = function(state){
+            var maxSteerVal = Math.PI / 5;
+            var vehicle = res.entity;
+            if(state == -1){
+                vehicle.setSteeringValue( maxSteerVal, 0);
+                vehicle.setSteeringValue( maxSteerVal, 1);
+            }
+            else if(state == 1){
+                vehicle.setSteeringValue( -maxSteerVal, 0);
+                vehicle.setSteeringValue( -maxSteerVal, 1);
+            }
+            else if(state == 0){
+                vehicle.setSteeringValue( 0, 0);
+                vehicle.setSteeringValue( 0, 1);
+            }
+        };
+
+        res.forward = function(){
+            var maxForce = 50;
+            var vehicle = res.entity;
+            vehicle.setWheelForce(maxForce, 2);
+            vehicle.setWheelForce( -maxForce, 3);
+
+        };
+
+        res.forward();
+
 
 
         return res;
