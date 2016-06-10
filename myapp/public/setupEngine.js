@@ -15,12 +15,14 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
     scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
     // This creates and positions a free camera
-   var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(8, 8, 8), scene);
+    var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(8, 8, 8), scene);
+   //var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
     // This targets the camera to scene origin
     camera.setTarget(BABYLON.Vector3.Zero());
 
     // This attaches the camera to the canvas
-    camera.attachControl(canvas, false);
+    //camera.attachControl(canvas, false);
+    camera.attachControl(canvas,false);
 
     // This creates a light, aiming 0,1,0 - to the sky.
 
@@ -85,6 +87,8 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
                 res.elements[i].draw(res.intervalPerSecond);
             }
             if(res.cameraFollow!=null){
+                //res.camera.setTarget(res.cameraFollow.position);
+                //res.camera.position = res.cameraFollow.position;
             	res.camera.position = res.cameraFollow.position.add(new BABYLON.Vector3(8, 8, 8));
             }
            

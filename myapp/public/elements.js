@@ -57,6 +57,7 @@ function CarShape(){
 	myBox.material.diffuseTexture = new BABYLON.Texture("res/crate.png", scene);    
 	shadowGenerator.getShadowMap().renderList.push(myBox);
 	createCarParticle(myBox,scene);
+
 	return myBox;
 }
 
@@ -64,7 +65,7 @@ function Car(nimble,drift,scene){
         var res = {};
         //UI for car
         
-        
+        res.balls = [];
         
         res.shape = CarShape();
         res.entity = CarEntity();
@@ -76,11 +77,21 @@ function Car(nimble,drift,scene){
         res.turningReturn = drift;
 
         res.goWithAngle = true;
-        
+
+        function debug(){
+            for(var i=0; i<4; i++){
+                var tt = BABYLON.Mesh.CreateSphere("",16,0.2,scene);
+                res.balls.push(tt);
+            }
+        };
+        debug();
 
         res.draw = function(duration){
 
-            
+            for(var i=0; i<res.entity.wheelBodies.length; i++){
+                res.balls[i].position = positionFromPhy(res.entity.wheelBodies[i].position);
+            }
+
             res.shape.position = positionFromPhy(res.entity.chassisBody.position); 
             res.shape.rotationQuaternion = quaternionFromPhy(res.entity.chassisBody.quaternion); 
         };
@@ -92,8 +103,10 @@ function Car(nimble,drift,scene){
         };
 
         res.turn = function(state){
-            var maxSteerVal = Math.PI / 5;
+            var maxSteerVal = Math.PI / 8;
             var vehicle = res.entity;
+            if(state!=0)res.forward();
+            else res.slide();
             if(state == -1){
                 vehicle.setSteeringValue( maxSteerVal, 0);
                 vehicle.setSteeringValue( maxSteerVal, 1);
@@ -109,11 +122,18 @@ function Car(nimble,drift,scene){
         };
 
         res.forward = function(){
-            var maxForce = 50;
+            var maxForce = 8;
             var vehicle = res.entity;
             vehicle.setWheelForce(maxForce, 2);
             vehicle.setWheelForce( -maxForce, 3);
 
+        };
+
+        res.slide = function(){
+            var maxForce = 0;
+            var vehicle = res.entity;
+            vehicle.setWheelForce(maxForce, 2);
+            vehicle.setWheelForce( -maxForce, 3);
         };
 
         res.forward();

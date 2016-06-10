@@ -18,38 +18,39 @@ function PhyscisEngine(){
 }
 
 function CarEntity(){
-	var mass = 1;
+	var mass = 5;
     var vehicle;
     		var wheelMaterial = new CANNON.Material("wheelMaterial");
             var wheelGroundContactMaterial = new CANNON.ContactMaterial(wheelMaterial, corePhysics.ground.material, {
-                friction: 0.4,
+                friction: 0.3,
                 restitution: 0,
-                contactEquationStiffness: 1000
+                
             });
 
             // We must add the contact materials to the world
             corePhysics.world.addContactMaterial(wheelGroundContactMaterial);
             var chassisShape;
-            var centerOfMassAdjust = new CANNON.Vec3(0, 0, -1);
-            chassisShape = new CANNON.Box(new CANNON.Vec3(5, 2, 0.5));
-            var chassisBody = new CANNON.Body({ mass: 1 });
-            chassisBody.addShape(chassisShape, centerOfMassAdjust);
-            chassisBody.position.set(0, 0, 20);
+            var ww = 0.45,hh=0.15,dd=0.15;
+            var centerOfMassAdjust = new CANNON.Vec3(0, 0, -0.2);
+            chassisShape = new CANNON.Box(new CANNON.Vec3(ww, dd, hh));
+            var chassisBody = new CANNON.Body({ mass: 40 });
+            chassisBody.addShape(chassisShape);
+            chassisBody.position.set(0, 0, 3);
 
             // Create the vehicle
             vehicle = new CANNON.RigidVehicle({
                 chassisBody: chassisBody
             });
 
-            var axisWidth = 7;
-            var wheelShape = new CANNON.Sphere(1.5);
+            var axisWidth = 0.6;
+            var wheelShape = new CANNON.Sphere(0.1);
             var down = new CANNON.Vec3(0, 0, -1);
 
             var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial });
             wheelBody.addShape(wheelShape);
             vehicle.addWheel({
                 body: wheelBody,
-                position: new CANNON.Vec3(5, axisWidth/2, 0).vadd(centerOfMassAdjust),
+                position: new CANNON.Vec3(ww, axisWidth/2, 0).vadd(centerOfMassAdjust),
                 axis: new CANNON.Vec3(0, 1, 0),
                 direction: down
             });
@@ -58,7 +59,7 @@ function CarEntity(){
             wheelBody.addShape(wheelShape);
             vehicle.addWheel({
                 body: wheelBody,
-                position: new CANNON.Vec3(5, -axisWidth/2, 0).vadd(centerOfMassAdjust),
+                position: new CANNON.Vec3(ww, -axisWidth/2, 0).vadd(centerOfMassAdjust),
                 axis: new CANNON.Vec3(0, -1, 0),
                 direction: down
             });
@@ -67,7 +68,7 @@ function CarEntity(){
             wheelBody.addShape(wheelShape);
             vehicle.addWheel({
                 body: wheelBody,
-                position: new CANNON.Vec3(-5, axisWidth/2, 0).vadd(centerOfMassAdjust),
+                position: new CANNON.Vec3(-ww, axisWidth/2, 0).vadd(centerOfMassAdjust),
                 axis: new CANNON.Vec3(0, 1, 0),
                 direction: down
             });
@@ -76,14 +77,14 @@ function CarEntity(){
             wheelBody.addShape(wheelShape);
             vehicle.addWheel({
                 body: wheelBody,
-                position: new CANNON.Vec3(-5, -axisWidth/2, 0).vadd(centerOfMassAdjust),
+                position: new CANNON.Vec3(-ww, -axisWidth/2, 0).vadd(centerOfMassAdjust),
                 axis: new CANNON.Vec3(0, -1, 0),
                 direction: down
             });
 
             // Some damping to not spin wheels too fast
             for(var i=0; i<vehicle.wheelBodies.length; i++){
-                vehicle.wheelBodies[i].angularDamping = 0.6;
+                vehicle.wheelBodies[i].angularDamping = 0.2;
             }
             vehicle.addToWorld(corePhysics.world);
 
