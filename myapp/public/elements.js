@@ -61,32 +61,34 @@ function CarShape(){
 	return myBox;
 }
 
-function Car(nimble,drift,scene){
+function Car(dPosition,dQuaternion,dState){
         var res = {};
         //UI for car
         
         res.balls = [];
         
         res.shape = CarShape();
-        res.entity = CarEntity();
-        res.velocity = new BABYLON.Vector3(0,0,0);
+        res.entity = CarEntity(dPosition,dQuaternion);
 
-        res.turningSpeed = 0;
-        res.turningAcc = nimble;
-        res.turningState = 0;
-        res.turningReturn = drift;
+     
+        res.turningState = dState;
 
-        res.goWithAngle = true;
 
         function debug(){
             for(var i=0; i<4; i++){
                 var tt = BABYLON.Mesh.CreateSphere("",16,0.2,scene);
+                if(i<2){
+                    tt.material = new BABYLON.StandardMaterial("texture2", scene);
+                    tt.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+                }
                 res.balls.push(tt);
             }
         };
         debug();
 
         res.draw = function(duration){
+
+
 
             for(var i=0; i<res.entity.wheelBodies.length; i++){
                 res.balls[i].position = positionFromPhy(res.entity.wheelBodies[i].position);
@@ -96,17 +98,15 @@ function Car(nimble,drift,scene){
             res.shape.rotationQuaternion = quaternionFromPhy(res.entity.chassisBody.quaternion); 
         };
 
-        res.manualTurn = function (){
-            var t = res.velocity.length();
-            res.velocity.x = t * Math.sin(res.shape.rotation.y);
-            res.velocity.z = t * Math.cos(res.shape.rotation.y);
-        };
+        
 
-        res.turn = function(state){
+        res.update = function(){
+            var maxSpeed = 8;
+            var state = res.turningState;
             var maxSteerVal = Math.PI / 8;
             var vehicle = res.entity;
-            if(state!=0)res.forward();
-            else res.slide();
+            if(state!=0 || vehicle.chassisBody.velocity.length() > maxSpeed)res.slide();
+            else res.forward();
             if(state == -1){
                 vehicle.setSteeringValue( maxSteerVal, 0);
                 vehicle.setSteeringValue( maxSteerVal, 1);
@@ -122,7 +122,7 @@ function Car(nimble,drift,scene){
         };
 
         res.forward = function(){
-            var maxForce = 10;
+            var maxForce = 5;
             var vehicle = res.entity;
             vehicle.setWheelForce(maxForce, 2);
             vehicle.setWheelForce( -maxForce, 3);
@@ -136,7 +136,7 @@ function Car(nimble,drift,scene){
             vehicle.setWheelForce( -maxForce, 3);
         };
 
-        res.forward();
+        
 
 
 

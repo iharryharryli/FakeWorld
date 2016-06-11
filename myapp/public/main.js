@@ -14,14 +14,10 @@ function Player(someID,someProfile){
 	res.update = function(newProfile){
 		
 
-		res.vehicle.turningSpeed = (newProfile.angle - res.vehicle.shape.rotation.y)/catchUpInterval;		
-
-		var current = new BABYLON.Vector3(newProfile.x,newProfile.y,newProfile.z);
-		res.vehicle.velocity = (current.subtract(res.vehicle.shape.position)).scale(1/catchUpInterval);
+		
 	};
 	res.remove = function(){
 		core.delete(res.vehicle);
-		
 		res = null;
 	};
 	
@@ -29,21 +25,11 @@ function Player(someID,someProfile){
 
 };
 
-function Me(ID,speed,angle){
+function Me(){
 	var res = {};
-	res.vehicle = Car(10,7,scene);
-	res.ID = ID;
-	res.vehicle.velocity = new BABYLON.Vector3(speed*Math.sin(angle),0,speed*Math.cos(angle));
-	res.vehicle.shape.rotation.y = angle;
+	res.vehicle = Car(new CANNON.Vec3(0,0,3),new CANNON.Quaternion(0,0,1,0),0);
 	res.update = function(){
-		postJson("updateSelf",{profile:
-							   {x:res.vehicle.shape.position.x,
-							   y:res.vehicle.shape.position.y,
-							   z:res.vehicle.shape.position.z,
-							   angle:res.vehicle.shape.rotation.y,
-							   },
-							   ID:res.ID
-							},function(){window.setTimeout(res.update,updateInterval);});
+		
 	};
 	core.add(res.vehicle);
 	core.cameraFollow = res.vehicle.shape;
@@ -53,10 +39,9 @@ function Me(ID,speed,angle){
 
 function StoryBegin(myID){
 
-	var me = Me(myID,1.5,0);
+	var me = Me();
 	setupWindow(me.vehicle);
 
-	//var others = PlayerManager(myID);
 }
 
 function PlayerManager(myID){

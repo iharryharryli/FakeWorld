@@ -82,7 +82,12 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
 
         res.draw = function(){
 
+            for(var i=0; i<res.elements.length; i++){
+                res.elements[i].update();
+            }
+
         	corePhysics.update(res.intervalPerSecond);
+            
             for(var i=0; i<res.elements.length; i++){
                 res.elements[i].draw(res.intervalPerSecond);
             }
