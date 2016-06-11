@@ -1,4 +1,4 @@
-    var FPS = 50;
+var FPS = 50;
 
 
 var canvas = document.getElementById("renderCanvas");
@@ -57,7 +57,7 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
 
     function Engine(fps){
 
-    	var res = {};	
+    	var res = {};
 
         res.interval = 1000/fps;
         res.intervalPerSecond = 1/fps;
@@ -79,12 +79,12 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
 
         res.draw = function(){
             for(var i=0; i<res.elements.length; i++){
+                // console.log(res.elements[i].delegate.position.z);
                 res.elements[i].draw(res.intervalPerSecond);
             }
             if(res.cameraFollow!=null){
             	res.camera.position = res.cameraFollow.position.add(new BABYLON.Vector3(8, 8, 8));
             }
-           
             scene.render();
         };
 

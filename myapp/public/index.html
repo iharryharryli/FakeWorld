@@ -1,44 +1,96 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-      <meta name="apple-mobile-web-app-capable"
-      content="yes">
-      <title>Babylon - Basic scene</title>
-      <style>
-  		html, body {
-		    overflow: hidden;
-		    width: 100%;
-		    height: 100%;
-		    margin: 0;
-		    padding: 0;
-	  }
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="apple-mobile-web-app-capable"
+		content="yes">
+		<title>Babylon - Basic scene</title>
+		<style>
+			html, body {
+			    overflow: hidden;
+			    width: 100%;
+			    height: 100%;
+			    margin: 0;
+			    padding: 0;
+			}
 
-	  #renderCanvas {
-	    width: 100%;
-	    height: 100%;
-	    touch-action: none;
-	  }
-	  </style>
-	  <script src="lib/hand.minified-1.2.js"></script>  
-	  <script src="lib/cannon.min.js"></script>  
-	  <script src="lib/oimo.js"></script>  
-	  <script src="lib/babylon.js"></script>  
-	  
-	  <script src="lib/utility.js"></script>
+			#renderCanvas {
+				width: 100%;
+				height: 100%;
+				touch-action: none;
+			}
+		</style>
+		<script src="lib/hand.minified-1.2.js"></script>  
+		<script src="lib/cannon.min.js"></script>  
+		<script src="lib/oimo.js"></script>  
+		<script src="lib/babylon.js"></script>
+
+		<script src="lib/utility.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
     </head>
 
 	 <body>
-	 <canvas id="renderCanvas"></canvas>
-	 <script src="elements.js"></script>
-   <script src="setupEngine.js" ></script>
-   <script src="setupWindow.js"></script>
-   <script src="login.js"></script>
-   <script type="text/javascript" src="main.js"></script>
-  	
+		<canvas id="renderCanvas"></canvas>
+		<script src="io.js"></script>
+		<script src="elements.js"></script>
+		<script src="setupEngine.js" ></script>
+		<script src="setupWindow.js"></script>
+		<script src="login.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<script>
 
+			socket.on('new car', function() {
+				console.log("getting a new car");
+				update(me);
+			});
+
+			socket.on('update', function(player){
+				console.log("received message to update");
+				for (var t of cars) {
+					if (t.ID == player.ID) {
+						console.log("this car already exists");
+						t.delegate.delegate.position = new BABYLON.Vector3(player.car.positionx,
+							player.car.positiony, player.car.positionz);
+						t.delegate.delegate.rotation.y = player.car.angle;
+						t.delegate.velocity = new BABYLON.Vector3(player.car.velocityx,
+							player.car.velocityy, player.car.velocityz);
+						t.delegate.turningState = player.car.state;
+						return;
+					}
+				}
+				console.log("found a new car");
+				var current = Player(player.ID,1.5,0);
+				current.delegate.delegate.position = new BABYLON.Vector3(player.car.positionx,
+					player.car.positiony, player.car.positionz);
+				current.delegate.delegate.rotation.y = player.car.angle;
+				current.delegate.velocity = new BABYLON.Vector3(player.car.velocityx,
+					player.car.velocityy, player.car.velocityz);
+				current.delegate.turningState = player.car.state;
+				console.log("added a new car");
+				// console.log(core.elements[0].delegate.position.z);
+				// console.log(core.elements[1].delegate.position.z);	
+				// core.add(current.delegate);			
+				// cars.push(current);
+			});
+
+			socket.on('disconnect', function(id){
+				console.log(id);
+				for (var i=0; i<cars.length; i++) {
+					console.log("car id :");
+					console.log(cars[i].ID);
+					if (cars[i].ID==id) {
+						console.log("HERE A CAR TO DELETE");
+						core.delete(cars[i].delegate);
+						cars.splice(i,1);
+						return;
+					}
+				}
+			});
+
+		</script>
 	 </body>
 
 </html>

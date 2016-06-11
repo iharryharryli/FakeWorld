@@ -84,19 +84,17 @@ function Car(nimble,drift,scene){
             }
             res.delegate.rotation.y += duration * res.turningSpeed;
 
-            if(res.turningSpeed != 0 && res.goWithAngle)res.manualTurn();
+            var t = res.velocity.length();
+            res.velocity.x = t * Math.sin(res.delegate.rotation.y);
+            res.velocity.z = t * Math.cos(res.delegate.rotation.y);
 
             var temp = res.velocity.scale(duration);
             
             res.delegate.position.addInPlace(temp); 
-            
+
+
         };
 
-        res.manualTurn = function (){
-            var t = res.velocity.length();
-            res.velocity.x = t * Math.sin(res.delegate.rotation.y);
-            res.velocity.z = t * Math.cos(res.delegate.rotation.y);
-        };
 
 
 

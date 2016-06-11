@@ -1,39 +1,41 @@
-var turningSpeed = 4;
 
-
-function setupWindow(aCar){
+function setupWindow(player){
 
       window.addEventListener("keydown", function(e){
-      	if(e.keyCode == 65){
-      	   //aCar.turningSpeed = turningSpeed;
-           aCar.turningState = 1;
-      	}
-      	else if(e.keyCode == 83){
-      		 //aCar.turningSpeed = 0 - turningSpeed;
-           aCar.turningState = -1;
-      	}
+        if(e.keyCode == 65){
+           //player.delegate.turningSpeed = turningSpeed;
+           player.delegate.turningState = 1;
+           update(player);
+        }
+        else if(e.keyCode == 83){
+           //player.delegate.turningSpeed = 0 - turningSpeed;
+           player.delegate.turningState = -1;
+           update(player);
+        }
 
       },false);
 
       window.addEventListener("keyup", function(e){
-        aCar.turningState = 0;
+        player.delegate.turningState = 0;
+        update(player);
       },false);
-      
-      
       
       
       window.addEventListener("touchstart",function(e){
           if(e.changedTouches[0].clientX<window.innerWidth/2){
-            aCar.turningState = 1;
+            player.delegate.turningState = 1;
+            update(player);
           }
           else{
-            aCar.turningState = -1;
+            player.delegate.turningState = -1;
+            update(player);
           } 
 
       });
 
       window.addEventListener("touchend",function(e){
-          aCar.turningState = 0;
+          player.delegate.turningState = 0;
+          update(player);
       });
         
       
