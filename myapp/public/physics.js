@@ -45,12 +45,17 @@ function CarEntity(dPosition,dQuaternion){
                 chassisBody: chassisBody
             });
 
-            var axisWidth = 1 ;
-            var wheelShape = new CANNON.Sphere(0.15);
+            var axisWidth = 0.7 ;
+            var wheelShape = new CANNON.Cylinder(0.15,0.15,0.05,100);
+
+            var cPos = new CANNON.Vec3(0,0,0);
+            var cQua = new CANNON.Quaternion();
+            cQua.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
+
             var down = new CANNON.Vec3(0, 0, -1);
 
             var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial });
-            wheelBody.addShape(wheelShape);
+            wheelBody.addShape(wheelShape,cPos,cQua);
             vehicle.addWheel({
                 body: wheelBody,
                 position: new CANNON.Vec3(ww, axisWidth/2, 0).vadd(centerOfMassAdjust),
@@ -59,7 +64,7 @@ function CarEntity(dPosition,dQuaternion){
             });
 
             var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial });
-            wheelBody.addShape(wheelShape);
+            wheelBody.addShape(wheelShape,cPos,cQua);
             vehicle.addWheel({
                 body: wheelBody,
                 position: new CANNON.Vec3(ww, -axisWidth/2, 0).vadd(centerOfMassAdjust),
@@ -68,7 +73,7 @@ function CarEntity(dPosition,dQuaternion){
             });
 
             var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial });
-            wheelBody.addShape(wheelShape);
+            wheelBody.addShape(wheelShape,cPos,cQua);
             vehicle.addWheel({
                 body: wheelBody,
                 position: new CANNON.Vec3(-ww, axisWidth/2, 0).vadd(centerOfMassAdjust),
@@ -77,7 +82,7 @@ function CarEntity(dPosition,dQuaternion){
             });
 
             var wheelBody = new CANNON.Body({ mass: mass, material: wheelMaterial });
-            wheelBody.addShape(wheelShape);
+            wheelBody.addShape(wheelShape,cPos,cQua);
             vehicle.addWheel({
                 body: wheelBody,
                 position: new CANNON.Vec3(-ww, -axisWidth/2, 0).vadd(centerOfMassAdjust),

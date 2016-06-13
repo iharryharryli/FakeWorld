@@ -30,6 +30,10 @@ app.get('/la', function (req, res) {
   res.redirect(indexPage);
 });
 
+app.get("/compose",function(req,res){
+	res.redirect("composer/compose.html");
+});
+
 app.get('/google',function(req,res){
 	res.redirect("http://google.com");
 });

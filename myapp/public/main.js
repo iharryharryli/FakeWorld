@@ -27,7 +27,10 @@ function Player(someID,someProfile){
 
 function Me(){
 	var res = {};
-	res.vehicle = Car(new CANNON.Vec3(0,0,3),new CANNON.Quaternion(0,0,1,0),0);
+
+	var tQ = new CANNON.Quaternion();
+	tQ.setFromAxisAngle(new CANNON.Vec3(1, 0, 0),0);
+	res.vehicle = Car(new CANNON.Vec3(0,0,5),tQ,0);
 	res.update = function(){
 		
 	};
