@@ -18,11 +18,11 @@ function PhyscisEngine(){
 }
 
 function CarEntity(dPosition,dQuaternion){
-	var mass = 1;
+	var mass = 3;
     var vehicle;
     		var wheelMaterial = new CANNON.Material("wheelMaterial");
             var wheelGroundContactMaterial = new CANNON.ContactMaterial(wheelMaterial, corePhysics.ground.material, {
-                friction: 0.3,
+                friction: 0.5,
                 restitution: 0,
                 
             });
@@ -31,7 +31,7 @@ function CarEntity(dPosition,dQuaternion){
             corePhysics.world.addContactMaterial(wheelGroundContactMaterial);
             var chassisShape;
             var ww = 0.45,hh=0.15,dd=0.15;
-            var centerOfMassAdjust = new CANNON.Vec3(0, 0, -0.2);
+            var centerOfMassAdjust = new CANNON.Vec3(0, 0, -0.05);
             chassisShape = new CANNON.Box(new CANNON.Vec3(ww, dd, hh));
             var chassisBody = new CANNON.Body({ mass: 3 });
             chassisBody.addShape(chassisShape);
@@ -45,7 +45,7 @@ function CarEntity(dPosition,dQuaternion){
                 chassisBody: chassisBody
             });
 
-            var axisWidth = 0.7 ;
+            var axisWidth = 0.55 ;
             var wheelShape = new CANNON.Cylinder(0.15,0.15,0.05,100);
 
             var cPos = new CANNON.Vec3(0,0,0);

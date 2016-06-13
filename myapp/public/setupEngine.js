@@ -57,7 +57,7 @@ engine.setHardwareScalingLevel(window.innerHeight/720);
 
 
     function addSkyBox(scene){
-    	var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+    	var skybox = BABYLON.Mesh.CreateBox("skyBox", 800.0, scene);
 	    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
 	    skyboxMaterial.backFaceCulling = false;
 	    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("res/skybox/skybox", scene);

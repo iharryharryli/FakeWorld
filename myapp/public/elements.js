@@ -67,7 +67,8 @@ function Car(dPosition,dQuaternion,dState){
         
         res.balls = [];
         
-        res.shape = CarShape();
+        res.shape = standardCarShape(scene,shadowGenerator);
+
         res.entity = CarEntity(dPosition,dQuaternion);
 
      
@@ -75,7 +76,7 @@ function Car(dPosition,dQuaternion,dState){
 
 
         function debug(){
-            for(var i=0; i<4; i++){
+            for(var i=0; i<res.entity.wheelBodies.length; i++){
                 var tt = BABYLON.Mesh.CreateSphere("",16,0.2,scene);
                 if(i<2){
                     tt.material = new BABYLON.StandardMaterial("texture2", scene);
@@ -84,13 +85,13 @@ function Car(dPosition,dQuaternion,dState){
                 res.balls.push(tt);
             }
         };
-        debug();
+        //debug();
 
         res.draw = function(duration){
 
 
 
-            for(var i=0; i<res.entity.wheelBodies.length; i++){
+            for(var i=0; i<res.balls.length; i++){
                 res.balls[i].position = positionFromPhy(res.entity.wheelBodies[i].position);
             }
 
